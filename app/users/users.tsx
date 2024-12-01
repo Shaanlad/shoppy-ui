@@ -8,16 +8,16 @@ export default async function Users() {
 
     return (
         <Grid2 container spacing={3}>
-        {users.map((u) => (
+        {/* {users.map((u) => (
             <Grid key={u.id} sm={6} lg={4} xs={12}>
             <User user={u}/>
         </Grid>
-        ))}
-            {/* {users.map((user) => (
+        ))} */}
+            {users.map((user) => (
                 <Grid key={user.id} sm={6} lg={4} xs={12}>
                     <User user={user}/>
                 </Grid>                
-            ))} */}
+            ))}
         </Grid2>
     )
 }

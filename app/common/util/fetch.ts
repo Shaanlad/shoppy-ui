@@ -3,7 +3,7 @@ import { API_URL } from "../constants/api";
 import { getErrorMessage } from "./errors";
 import { cookies } from "next/headers";
 
-const getHeaders = () => ({
+export const getHeaders = () => ({
     Cookie: cookies().toString(),
 });
 
@@ -12,9 +12,8 @@ export const post = async (path: string, formData: FormData) => {
     const resp = await fetch(`${API_URL}/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json", 
-            // ...getHeaders()
-
-        },
+            ...getHeaders()
+            },
         body: JSON.stringify(Object.fromEntries(formData))
     });
     const parsedResp = await resp.json();
@@ -22,7 +21,7 @@ export const post = async (path: string, formData: FormData) => {
         console.log(parsedResp);
         return { error: getErrorMessage(parsedResp) };
     }
-    return { error: "" };
+    return { error: "" , data: parsedResp};
 };
 
 export const get = async <T>(path: string) => {
