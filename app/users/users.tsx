@@ -4,7 +4,7 @@ import User from "./user";
 
 export default async function Users() {
     const users = await getUsers();
-    console.log("getUsers>> ", getUsers);
+    console.log("users>> ", users);
 
     return (
         <Grid2 container spacing={3}>
