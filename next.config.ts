@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "localhost"
+      },
+    ],
+  },
 };
 
 export default nextConfig;
