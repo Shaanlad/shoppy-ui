@@ -49,39 +49,43 @@ export default function CreateUserModal({open, handleClose}: CreateUserModalProp
         <Modal open={open} onClose={onClose}>
             <Box sx={styles} >
                 <form className="w-full max-w-xs" action={async (formData) => {
-                   const response = await createUser(formData);
-                   setResponse(response);
-                   if(!response.error) {
-                    onClose();
-                   }
-                }}>
-                <Stack spacing={2} >
-                    <TextField name="email" label="Email" variant="outlined" type="email"   
-                    helperText={response?.error} 
-                    error={!!response?.error}
-                    required
-                />
-                    <TextField name="password" label="Password" variant="outlined" type="password" 
-                    helperText={response?.error} 
-                    error={!!response?.error}
-                />
-                <Button
-                    component="label"
-                    variant="outlined"
-                    startIcon={<CloudUploadIcon />}
-                >
-                    Upload File
-                    <input 
-                        type="file" 
-                        name="image" 
-                        style={fileInputStyles}
-                        onChange={(e) => 
-                            e.target.files && setFileName(e.target.files[0].name)}>
-                    </input>                    
-                </Button>
-                <Typography>{filename}</Typography>                    
-                <Button type="submit" variant="contained">Submit</Button>
-                </Stack>
+                    const response = await createUser(formData);
+                    setResponse(response);
+                    if(!response.error) {
+                        onClose();
+                    }
+                    }}>
+                    <Stack spacing={2} >
+                        <TextField name="email" label="Email" variant="outlined" type="email"   
+                        helperText={response?.error} 
+                        error={!!response?.error}
+                        required
+                        />
+                        <TextField name="password" label="Password" variant="outlined" type="password" 
+                        helperText={response?.error} 
+                        error={!!response?.error}
+                        />
+                        {/* <TextField name="hourlyWorkRate" label="Hourly Work Rate" variant="outlined" type="number"
+                        helperText={response?.error} 
+                        error={!!response?.error}
+                        /> */}
+                        <Button
+                            component="label"
+                            variant="outlined"
+                            startIcon={<CloudUploadIcon />}
+                            >
+                            Upload File
+                            <input 
+                                type="file" 
+                                name="image" 
+                                style={fileInputStyles}
+                                onChange={(e) => 
+                                    e.target.files && setFileName(e.target.files[0].name)}>
+                            </input>                    
+                        </Button>
+                        <Typography>{filename}</Typography>                    
+                        <Button type="submit" variant="contained">Submit</Button>
+                    </Stack>
                 </form>
             </Box>
         </Modal>

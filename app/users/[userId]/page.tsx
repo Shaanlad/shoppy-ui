@@ -1,21 +1,20 @@
-import { Grid2, Stack, Typography } from "@mui/material";
+import { Grid, Grid2, Stack, Typography } from "@mui/material";
 import getUser from "./get-user";
 import Image from "next/image";
 import { getUserImage } from "../user-image";
 
-interface SingleUserProps {
-    params: { userId: string };
-}
+export default async function SingleUser({ params }: { params?: Promise<{ userId: string }> }) {
 
+    const resolvedParams = params ? await params : undefined;
 
-export default async function SingleUser({ params }: SingleUserProps) {
+    const userId = resolvedParams?.userId ?? '';
 
-    const user = await getUser(+params.userId);
+    const user = await getUser(+userId);
 
     return (
         <Grid2 container marginBottom={"2rem"} rowGap={3}>
             {user.imageExists && (
-            <Grid2 md={6} xs={6} >
+            <Grid md={6} xs={6} >
                 
                 <Image
                     src={getUserImage(user.id)}
@@ -25,13 +24,13 @@ export default async function SingleUser({ params }: SingleUserProps) {
                     className="w-full sm:w-3/4 h-auto"
                     sizes="100vw"
                 />
-            </Grid2>
+            </Grid>
             )}
-            <Grid2 md={6} xs={6}>
+            <Grid md={6} xs={6}>
                 <Stack gap={3}>                
                     <Typography variant="h3"> {user.email} </Typography>
                 </Stack>
-            </Grid2>            
+            </Grid>            
         </Grid2>        
     )
 }
