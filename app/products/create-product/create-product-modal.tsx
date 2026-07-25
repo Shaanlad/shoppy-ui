@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
-import { FormResponse } from "../common/interfaces/form-response.interface";
+import { FormResponse } from "../../common/interfaces/form-response.interface";
 import { useState } from "react";
-import createProduct from "./create-product";
+import createProduct from "../actions/create-product";
 
 
 const styles = {

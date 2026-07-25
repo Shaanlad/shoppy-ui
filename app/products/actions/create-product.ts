@@ -1,6 +1,6 @@
 "use server"
 
-import { post } from "../common/util/fetch";
+import { post } from "../../common/util/fetch";
 
 export default async function createProduct(formData: FormData) {
     // const response = await fetch("http://localhost:8080/api/products", {
