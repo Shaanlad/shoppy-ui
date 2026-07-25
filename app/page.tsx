@@ -1,12 +1,13 @@
-import CreateProductFab from "./users/create-user/create-user-fab";
-import Users from "./users/users";
+import CreateProductFab from "./products/create-product-fab";
+// import Users from "./users/users";
 
 export default async function Home() {
   
   return (
     <> 
-    {/* <Users /> */}
-    <CreateProductFab /> </>
+      {/* <Users /> */}
+      <CreateProductFab /> 
+    </>
 )}
 
  
