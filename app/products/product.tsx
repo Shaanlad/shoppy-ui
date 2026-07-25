@@ -7,8 +7,8 @@ interface ProductProps {
 
 export default function Product({product}: ProductProps) {
     return (
-        <Card className="p-4">
-            <Typography variant="h4" component="h2" gutterBottom>
+        <Card className="p-4" elevation={0} sx={{ bgcolor: "white", border: "1.5px solid #e0e0e0", borderRadius: "8px" }}>
+            <Typography variant="h5" component="h5" gutterBottom>
                 {product.name}
             </Typography>
             <Typography variant="body1" gutterBottom>

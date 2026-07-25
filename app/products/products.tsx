@@ -7,9 +7,9 @@ export default async function Products() {
     console.log("products >> ", products);
 
     return (
-        <Grid2 container spacing={2} className="p-4">
+         <Grid2 container spacing={3} >
             {products.map((product) => (
-                <Grid2 key={product.id} xs={12} sm={6} md={4} lg={3}>
+                <Grid2 key={product.id} size={{ xs: 12, sm: 6, lg: 4 }}>
                     <Product product={product} />
                     {/* <div className="border p-4 rounded-lg shadow-md">
                         <h2 className="text-lg font-semibold mb-2">{product.name}</h2>

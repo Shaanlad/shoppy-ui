@@ -24,11 +24,12 @@ export const post = async (path: string, formData: FormData) => {
     return { error: "" , data: parsedResp};
 };
 
-export const get = async <T>(path: string) => {
+export const get = async <T>(path: string, tags?: string[]) => {
+
     const res = await fetch(`${API_URL}/${path}`,
         {
-        headers: { ...(await getHeaders()) }
-
+        headers: { ...(await getHeaders()) },
+        next: { tags }
     }
 )
     return res.json() as T;

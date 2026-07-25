@@ -10,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -46,7 +47,7 @@ export default function Header({ logout }: HeaderProps) {
   const pages = isAuthenticated ? routes: unauthenticatedRoutes;
 
   return (
-    <AppBar position="static">
+     <AppBar position="static" sx={{ bgcolor: "#0046befa" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ShoppingBasketIcon
@@ -67,7 +68,7 @@ export default function Header({ logout }: HeaderProps) {
               textDecoration: "none",
             }}
           >
-            Shoppy
+            BuyNow
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -115,8 +116,8 @@ export default function Header({ logout }: HeaderProps) {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -128,7 +129,7 @@ export default function Header({ logout }: HeaderProps) {
               textDecoration: "none",
             }}
           >
-            Shoppy
+            BuyNow
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -168,7 +169,9 @@ const Settings = ({logout} : HeaderProps) => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="GitHub" sx={{ bgcolor: "#fff", color: "#000" }}>
+            <GitHubIcon />
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu
