@@ -1,6 +1,6 @@
 "use client"
 
-import AppRouterCacheProvider from "@mui/material-nextjs/v13-appRouter/appRouterV13";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material";
 import darkTheme from "./dark.theme";
 import { ReactElement } from "react";
