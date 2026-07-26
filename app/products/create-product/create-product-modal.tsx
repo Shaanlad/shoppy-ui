@@ -1,9 +1,10 @@
 "use client";
 
-import { Box, Button, Modal, Stack, TextField } from "@mui/material";
+import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material";
 import { FormResponse } from "../../common/interfaces/form-response.interface";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import createProduct from "../actions/create-product";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 
 const styles = {
@@ -18,6 +19,18 @@ const styles = {
     p: 4,
   };
 
+  const fileInputStyles: CSSProperties = {
+      clip: "rect(0 0 0 0)",
+      clipPath: "inset(50%)",
+      height: 1,
+      overflow: "hidden",
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      whiteSpace: "nowrap",
+      width: 1,
+    };
+
   interface CreateProductModalProps {
     open: boolean;
     handleClose: () => void;
@@ -27,9 +40,11 @@ const styles = {
 export default function CreateProductModal({ open, handleClose }: CreateProductModalProps) {
 
     const [response, setResponse] = useState<FormResponse>();
+    const [filename, setFileName] = useState("");
     const onClose = () => {
         setResponse(undefined);
         handleClose();
+        setFileName("");
     }
 
     return (
@@ -63,7 +78,7 @@ export default function CreateProductModal({ open, handleClose }: CreateProductM
                         helperText={response?.error} 
                         error={!!response?.error}
                         /> */}
-                        {/* <Button
+                        <Button
                             component="label"
                             variant="outlined"
                             startIcon={<CloudUploadIcon />}
@@ -74,10 +89,11 @@ export default function CreateProductModal({ open, handleClose }: CreateProductM
                                 name="image" 
                                 style={fileInputStyles}
                                 onChange={(e) => 
-                                    e.target.files && setFileName(e.target.files[0].name)}>
+                                    e.target.files && setFileName(e.target.files[0].name)}
+                                    >
                             </input>                    
                         </Button>
-                        <Typography>{filename}</Typography>                     */}
+                        <Typography>{filename}</Typography>                    
                         <Button type="submit" variant="contained">Submit</Button>
                     </Stack>
                     </form>

@@ -170,7 +170,7 @@ const Settings = ({logout} : HeaderProps) => {
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt="GitHub" sx={{ bgcolor: "#fff", color: "#000" }}>
-            <GitHubIcon />
+            <GitHubIcon sx={{ width: "90%", height: "90%" }} />
           </Avatar>
         </IconButton>
       </Tooltip>
