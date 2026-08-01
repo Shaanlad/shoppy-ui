@@ -14,20 +14,19 @@ export default async function SingleProduct({ params }: SingleProductProps) {
 
     return (
         <Grid2 container marginBottom={"2rem"} columnSpacing={4} rowGap={3}>
+            {product.imageExists && (
             <Grid2 size={{ xs: 12, md: 6 }}>
-                {
-                    product.imageExists && (
-                        <img
-                            src={getProductImage(product.id)}
-                            alt={product.name}
-                            width={0}
-                            height={0}
-                            className="w-full sm:w-3/4 h-auto"
-                            sizes="100vw"
-                        />
-                    )
-                }
+                
+                <img
+                    src={getProductImage(product.id)}
+                    alt={product.name}
+                    width={0}
+                    height={0}
+                    className="w-full sm:w-3/4 h-auto"
+                    sizes="100vw"
+                />                
             </Grid2>
+            )}
             <Grid2 size={{ xs: 12, md: 6 }}>
                 <Stack gap={3}>
                     <Typography variant="h3">
