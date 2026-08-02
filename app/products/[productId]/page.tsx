@@ -1,6 +1,8 @@
 import { Grid2, Stack, Typography } from "@mui/material";
 import getProduct from "./get-product";
 import { getProductImage } from "../product-image";
+import { LocalShipping, AssignmentReturn, VerifiedUser } from "@mui/icons-material";
+import Checkout from "@/app/checkout/checkout";
 
 interface SingleProductProps {
     params: Promise<{
@@ -38,6 +40,25 @@ export default async function SingleProduct({ params }: SingleProductProps) {
                     <Typography variant="h4">
                         ${product.price.toFixed(2)}
                     </Typography>
+                    <Checkout productId={product.id} />
+                    <Stack direction="row" gap={1} alignItems="center">
+                        <LocalShipping color="success" />
+                        <Typography>
+                            Free Shipping
+                        </Typography>
+                    </Stack>
+                    <Stack direction="row" gap={1} alignItems="center">
+                        <AssignmentReturn color="success" />
+                        <Typography>
+                            Quick Returns
+                        </Typography>
+                    </Stack>
+                    <Stack direction="row" gap={1} alignItems="center">
+                        <VerifiedUser color="error" />
+                        <Typography>
+                            Money Back Guarantee
+                        </Typography>
+                    </Stack>
                 </Stack>
             </Grid2>
         </Grid2>

@@ -1,7 +1,6 @@
 "use client"
 import { Button } from "@mui/material";
 import checkout from "./actions/checkout";
-import getStripe from "./stripe";
 
 interface CheckoutProps {
     productId: number;
@@ -10,9 +9,8 @@ interface CheckoutProps {
 export default function Checkout({ productId }: CheckoutProps) {
 const handleCheckout = async () => {
     const session = await checkout(productId);
-    const stripe = await getStripe();
-    if (stripe) {
-        await stripe.redirectToCheckout({ sessionId: session.data.id });
+    if (session.data?.url) {
+        window.location.href = session.data.url;
     }
 };
 

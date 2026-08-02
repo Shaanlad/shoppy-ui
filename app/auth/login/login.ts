@@ -11,18 +11,29 @@ export default async function login(
     _prevState: FormResponse,
     formData: FormData
 ) {  
-    const resp = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: JSON.stringify(Object.fromEntries(formData))
-    });
+    if (!API_URL) {
+        return { error: "API URL is not configured" };
+    }
+
+    let resp: Response;
+    try {
+        resp = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(Object.fromEntries(formData))
+        });
+    } catch (err) {
+        console.log(err);
+        return { error: "Unable to reach the server" };
+    }
+
     const parsedResp = await resp.json();
     if(!resp.ok) {
         console.log(parsedResp);
         return { error: getErrorMessage(parsedResp) };
     }
     setAuthCookie(resp);
-    redirect("/");  
+    redirect("/");
 }
 
 const setAuthCookie = async (response: Response) => {
