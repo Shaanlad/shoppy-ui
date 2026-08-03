@@ -2,13 +2,18 @@ import CreateProductFab from "./products/create-product/create-product-fab";
 import Products from "./products/products";
 // import Users from "./users/users";
 
-export default async function Home() {  
-  
+interface HomeProps {
+  searchParams: Promise<{ search?: string }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const { search } = await searchParams;
+
   return (
-    <> 
+    <>
       {/* <Users /> */}
-      <Products />
-      <CreateProductFab /> 
+      <Products search={search} />
+      <CreateProductFab />
     </>
 )}
 

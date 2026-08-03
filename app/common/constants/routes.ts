@@ -13,5 +13,5 @@ export const unauthenticatedRoutes = [
     {
       title: "Home",
       path: "/",
-    },
+    }
   ];

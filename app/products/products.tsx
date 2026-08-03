@@ -1,9 +1,17 @@
 import getProducts from "./actions/get-products";
 import ProductsGrid from "./products-grid";
 
-export default async function Products() {
-    const products = await getProducts();
-    console.log("products >> ", products);
+interface ProductsProps {
+    search?: string;
+}
 
-    return <ProductsGrid products={products} />
+export default async function Products({ search }: ProductsProps) {
+    const products = await getProducts();
+    const filteredProducts = search
+        ? products.filter((product) =>
+            product.name.toLowerCase().includes(search.toLowerCase())
+        )
+        : products;
+
+    return <ProductsGrid products={filteredProducts} />
 }

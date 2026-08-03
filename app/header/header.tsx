@@ -5,20 +5,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import PortraitIcon from '@mui/icons-material/Portrait';
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import Autocomplete from "@mui/material/Autocomplete";
+import SearchIcon from "@mui/icons-material/Search";
 import { AuthContext } from "../auth/auth-context";
-import { MouseEvent, useContext, useState } from "react";
+import { MouseEvent, useContext, useEffect, useState } from "react";
 import { routes, unauthenticatedRoutes } from "../common/constants/routes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import getProducts from "../products/actions/get-products";
+import { Product } from "../products/interfaces/product.interface";
 
 // const pages = ["Products", "Pricing", "Blog"];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -30,11 +36,18 @@ interface HeaderProps {
 export default function Header({ logout }: HeaderProps) {
 
     const isAuthenticated = useContext(AuthContext);
-    const router = useRouter();  
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(
     null
   );
+  const [search, setSearch] = useState(searchParams.get("search") ?? "");
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -47,12 +60,16 @@ export default function Header({ logout }: HeaderProps) {
   const pages = isAuthenticated ? routes: unauthenticatedRoutes;
 
   return (
-     <AppBar position="static" sx={{ bgcolor: "#0046befa" }}>
+     <AppBar position="static" sx={{ bgcolor: "#0f3359" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <ShoppingBasketIcon
+          {/* <ShoppingBasketIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          /> */}
+          <LocalMallIcon
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
+          
           <Typography
             variant="h6"
             noWrap
@@ -63,8 +80,8 @@ export default function Header({ logout }: HeaderProps) {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              letterSpacing: ".05rem",
+              color: "#fff",
               textDecoration: "none",
             }}
           >
@@ -110,7 +127,7 @@ export default function Header({ logout }: HeaderProps) {
               ))}
             </Menu>
           </Box>
-          <ShoppingBasketIcon
+          <LocalMallIcon
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
           <Typography
@@ -131,7 +148,8 @@ export default function Header({ logout }: HeaderProps) {
           >
             BuyNow
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page.title}
@@ -145,6 +163,55 @@ export default function Header({ logout }: HeaderProps) {
               </Button>
             ))}
           </Box>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" }, justifyContent: "center", mx: 2 }}>
+            <Autocomplete
+              freeSolo
+              size="small"
+              sx={{ width: "100%", maxWidth: 400 }}
+              options={products}
+              getOptionLabel={(option) => (typeof option === "string" ? option : option.name)}
+              filterOptions={(options, { inputValue }) =>
+                inputValue
+                  ? options.filter((option) =>
+                      option.name.toLowerCase().includes(inputValue.toLowerCase())
+                    )
+                  : []
+              }
+              inputValue={search}
+              onInputChange={(_, value) => setSearch(value)}
+              onChange={(_, value) => {
+                if (value && typeof value !== "string") {
+                  router.push(`/products/${value.id}`);
+                  setSearch("");
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Search BuyNow"
+                  sx={{
+                    bgcolor: "rgba(255, 255, 255, 0.15)",
+                    borderRadius: 1,
+                    input: { color: "#fff" },
+                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                    "& .MuiAutocomplete-endAdornment .MuiSvgIcon-root": { color: "#fff" },
+                  }}
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon sx={{ color: "#fff" }} />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
+            />
+          </Box>
+
           {isAuthenticated && <Settings logout={logout}/>}
         </Toolbar>
       </Container>
@@ -168,11 +235,21 @@ const Settings = ({logout} : HeaderProps) => {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="GitHub" sx={{ bgcolor: "#fff", color: "#000" }}>
-            <GitHubIcon sx={{ width: "90%", height: "90%" }} />
-          </Avatar>
-        </IconButton>
+        <Box
+          onClick={handleOpenUserMenu}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          <IconButton sx={{ p: 0 }}>
+            <Avatar alt="Person" sx={{ bgcolor: "#fff", color: "#000" }}>
+              <PortraitIcon sx={{ width: "70%", height: "70%" }} />
+            </Avatar>
+          </IconButton>
+        </Box>
       </Tooltip>
       <Menu
         sx={{ mt: "45px" }}
