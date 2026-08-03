@@ -17,6 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Autocomplete from "@mui/material/Autocomplete";
+import Backdrop from "@mui/material/Backdrop";
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthContext } from "../auth/auth-context";
 import { MouseEvent, useContext, useEffect, useState } from "react";
@@ -44,6 +45,7 @@ export default function Header({ logout }: HeaderProps) {
   );
   const [search, setSearch] = useState(searchParams.get("search") ?? "");
   const [products, setProducts] = useState<Product[]>([]);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     getProducts().then(setProducts);
@@ -60,12 +62,15 @@ export default function Header({ logout }: HeaderProps) {
   const pages = isAuthenticated ? routes: unauthenticatedRoutes;
 
   return (
-     <AppBar position="static" sx={{ bgcolor: "#0f3359" }}>
+    <>
+     <Backdrop
+        open={searchOpen}
+        onClick={() => setSearchOpen(false)}
+        sx={{ zIndex: (theme) => theme.zIndex.modal }}
+      />
+     <AppBar position="static" sx={{ bgcolor: "#0f3359", position: "relative", zIndex: (theme) => theme.zIndex.modal + 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <ShoppingBasketIcon
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-          /> */}
           <LocalMallIcon
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
@@ -169,6 +174,7 @@ export default function Header({ logout }: HeaderProps) {
               freeSolo
               size="small"
               sx={{ width: "100%", maxWidth: 400 }}
+              slotProps={{ popper: { sx: { zIndex: (theme) => theme.zIndex.modal + 2 } } }}
               options={products}
               getOptionLabel={(option) => (typeof option === "string" ? option : option.name)}
               filterOptions={(options, { inputValue }) =>
@@ -180,10 +186,13 @@ export default function Header({ logout }: HeaderProps) {
               }
               inputValue={search}
               onInputChange={(_, value) => setSearch(value)}
+              onOpen={() => setSearchOpen(true)}
+              onClose={() => setSearchOpen(false)}
               onChange={(_, value) => {
                 if (value && typeof value !== "string") {
                   router.push(`/products/${value.id}`);
                   setSearch("");
+                  setSearchOpen(false);
                 }
               }}
               renderInput={(params) => (
@@ -216,6 +225,7 @@ export default function Header({ logout }: HeaderProps) {
         </Toolbar>
       </Container>
     </AppBar>
+    </>
   );
 }
 
