@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { Container, CssBaseline } from "@mui/material";
 import Header from "./header/header";
 import Providers from "./providers";
-import authenticated from "./auth/authenticated";
+import authenticated from "./auth/actions/authenticated";
 import logout from "./auth/logout";
 
 const inter = Inter({ subsets: ["latin"] })
